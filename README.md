@@ -18,6 +18,7 @@ BackEnd:<br/>
 -> ES6<br/>
 -> Express<br/>
 -> WAMP Server (consists of MySQL + Apache WebServer)<br/>
+-> SQL
 -> Async/Await Functions (in place of Sequelize)<br/>
 <br/>
 # How to run the application:<br/>
