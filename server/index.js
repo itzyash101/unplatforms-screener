@@ -31,26 +31,13 @@ app.get("/api/get", (req, res) => {
 app.post("/api/insert", (req, res) => {
 
     const questionCount = req.body.questions.length;
-    const sqlDeleteIfExists = () => {
+    const sqlDeleteAll = () => {
         return new Promise((resolve, reject) => {
-            db.query("DROP TABLE IF EXISTS questionnaire;", (err, res) => {
+            db.query("DELETE FROM questionnaire;", (err, res) => {
                 // console.log(err);
                 if(err) reject(err);
-                console.log("Successfully Dropped");
+                console.log("Successfully Deleted all");
                 resolve(res);
-            });
-        });
-    };
-    const sqlRecreateTable = () => {
-        return new Promise((resolve, reject) => {
-            db.query(`CREATE TABLE questionnaire (
-                qid INT NOT NULL AUTO_INCREMENT,
-                question VARCHAR(500) NOT NULL,
-                options VARCHAR(500) NOT NULL,
-                PRIMARY KEY(qid));`, (err, res) => {
-                    if(err) reject(err);
-                    console.log("Successfully Recreated");
-                    resolve(res);
             });
         });
     };
@@ -68,10 +55,9 @@ app.post("/api/insert", (req, res) => {
     };
     async function sequentialQueries() {
         try {
-            const q1 = await sqlDeleteIfExists();
-            const q2 = await sqlRecreateTable();
+            const q1 = await sqlDeleteAll();
             for(let i=0; i<questionCount; i++) {
-                const q3 = await sqlInsert(i);
+                const q2 = await sqlInsert(i);
             }
         }
         catch(error) {
